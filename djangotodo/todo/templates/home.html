@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<br>
+<table class="table">
+    <thead class="thead-inverse">
+        <tr>
+            <th>ID</th>
+            <th>Task Name</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% if all_items %}
+                {% for task in all_items %}
+                    {% if task.completed %}
+                        <tr class="striker">
+                            <td scope="row">{{ task.id }}</td>
+                            <td><a href = "{% url 'edit' task.id %}">{{ task.item }}</a></td>
+                            <td><a href = "{% url 'cross' task.id %}"><span class="badge badge-warning">Uncross</span></a></td>
+                            <td><a href = "{% url 'delete' task.id %}"><span class="badge badge-danger">Delete</span></a></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td scope="row">{{ task.id }}</td>
+                            <td><a href = "{% url 'edit' task.id %}">{{ task.item }}</a></td>
+                            <td><a href = "{% url 'cross' task.id %}"><span class="badge badge-success">Cross</span></a></td>
+                            <td><a href = "{% url 'delete' task.id %}"><span class="badge badge-danger">Delete</span></a></td>
+                        </tr>
+                    {% endif %}                    
+                {% endfor %}
+            {% else %}
+                <tr><td colspan="4">No Tasks in Queue</td></tr>
+            {% endif %}
+            
+            
+        </tbody>
+</table>
+{% endblock content %}
