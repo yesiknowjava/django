@@ -1,0 +1,63 @@
+{% extends 'user_base.html' %}
+{% load static %}
+
+{% block specific_includes %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-datepicker.min.css' %}">
+{% endblock specific_includes %}
+
+{% block content %}
+<div class="container">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %}
+        {% endif %}
+    <br>
+
+    <form method="POST" name="apply_leave">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="leaveType">Leave Category</label>
+            <select id="leaveType" class="form-control" name="leave_type">
+                <option selected>Choose...</option>
+                {% for type in leave_type %}
+                    <option value="{{ type.0 }}">{{ type.1 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputEmail4">Start Date</label>
+                <input type="text" class="form-control datepicker" id="inputEmail4" placeholder="Start Date" data-provide="datepicker" name="start_date">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputPassword4">End Date</label>
+                <input type="text" class="form-control datepicker" id="inputPassword4" placeholder="End Date" data-provide="datepicker" name="end_date">
+            </div>
+        </div>
+        <div class="form-group">
+          <label for="reason">Reason</label>
+          <textarea class="form-control" name="reason" id="reason" rows="3"></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Sign in</button>
+    </form>
+</div>
+
+{% endblock content %}
+
+
+{% block specific_js_includes %}
+<script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $('.datepicker').datepicker({});
+    })
+</script>
+{% endblock specific_js_includes %}
